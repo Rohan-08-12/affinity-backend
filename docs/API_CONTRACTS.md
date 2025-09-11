@@ -1,23 +1,21 @@
-# API Contracts – Affinity Backend (AI Therapist)
+API Contracts – Affinity Backend (AI Therapist)
 
-This document defines the planned API routes, request/response formats, and expected behaviors for the **Affinity AI Therapist** backend.  
-⚠️ **Disclaimer:** Affinity is **not a substitute for professional therapy or medical care**. The system will suggest crisis hotlines if harmful language is detected.
+This document defines the planned API routes, request/response formats, and expected behaviors for the Affinity AI Therapist backend.
 
----
+⚠️ Disclaimer: Affinity is not a substitute for professional therapy or medical care. The system will suggest crisis hotlines if harmful language is detected.
 
-## 🔑 Authentication Routes
+🔑 Authentication Routes
+POST /auth/register
 
-### `POST /auth/register`
+Description: Register a new user account
 
-- **Description:** Register a new user account
-- **Request Body:**
-  ```json
-  {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "password": "securepassword123"
-  }
-  ```
+Request Body:
+
+{
+"name": "John Doe",
+"email": "john@example.com",
+"password": "securepassword123"
+}
 
 Response (201):
 
@@ -187,7 +185,9 @@ Description: Mark a notification as read
 
 Response (200):
 
-{ "message": "Notification marked as read" }
+{
+"message": "Notification marked as read"
+}
 
 🛡️ Error Responses (Example)
 {

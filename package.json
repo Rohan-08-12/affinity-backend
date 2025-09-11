@@ -1,0 +1,36 @@
+{
+  "name": "affinity-backend",
+  "version": "1.0.0",
+  "description": "Affinity is an **AI Therapist** platform designed to provide supportive journaling, empathetic chat, and mood tracking.   This backend repository powers secure authentication, user data management, chat sessions, and mood entry storage.   ⚠️ **Disclaimer:** Affinity is **not a substitute for professional therapy or medical care**. If a user is in crisis, the system provides local hotline information and encourages contacting a professional immediately.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rohan-08-12/affinity-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Rohan-08-12/affinity-backend/issues"
+  },
+  "homepage": "https://github.com/Rohan-08-12/affinity-backend#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
