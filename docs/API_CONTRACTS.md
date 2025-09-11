@@ -1,3 +1,10 @@
+# API Contracts – Affinity Backend (AI Therapist)
+
+This document defines the planned API routes, request/response formats, and expected behaviors for the **Affinity AI Therapist** backend.  
+⚠️ **Disclaimer:** Affinity is **not a substitute for professional therapy or medical care**. The system will suggest crisis hotlines if harmful language is detected.
+
+---
+
 ## 🔑 Authentication Routes
 
 ### `POST /auth/register`
