@@ -5,6 +5,7 @@ const authRoutes = require('./routes/auth');
 const journalRoutes = require('./routes/journal');
 const userRoutes = require('./routes/user');
 const moodRoutes = require('./routes/mood');
+const chatRoutes = require('./routes/chat');
 const notificationRoutes = require('./routes/notification');
 
 dotenv.config();
@@ -42,6 +43,9 @@ app.use('/mood', moodRoutes);
 
 // Import and use notification routes
 app.use('/notifications', notificationRoutes);
+
+// Import and use chat routes
+app.use('/chat', chatRoutes);
 
 // Start the server
 app.listen(PORT, (err) => {
