@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const journalRoutes = require('./routes/journal');
 const userRoutes = require('./routes/user');
+const moodRoutes = require('./routes/mood');
 
 dotenv.config();
 
@@ -34,6 +35,9 @@ app.use('/journal', journalRoutes);
 
 // Import and use user routes
 app.use('/users', userRoutes);
+
+// Import and use mood routes
+app.use('/mood', moodRoutes);
 
 // Start the server
 app.listen(PORT, (err) => {
