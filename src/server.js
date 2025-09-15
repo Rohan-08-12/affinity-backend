@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
+const journalRoutes = require('./routes/journal');
 
 dotenv.config();
 
@@ -25,6 +26,10 @@ app.get('/', (req, res) => {
 // Import and use auth routes
 
 app.use('/auth', authRoutes);
+
+// Import and use journal routes
+
+app.use('/journal', journalRoutes);
 
 // Start the server
 app.listen(PORT, (err) => {

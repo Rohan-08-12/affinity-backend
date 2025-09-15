@@ -25,7 +25,11 @@ const registerUser=async (req, res) => {
         // token expires in 1 hour
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(201).json({ token });
+        res.status(201).json({ 
+            message: 'User registered successfully', 
+            userId: user._id,
+            token
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -53,7 +57,7 @@ const loginUser=async(req,res)=>{
         const payload={userId:user._id};
         const token=jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'1h'});
         // token expires in 1 hour
-        res.json({token});
+        res.status(200).json({message:'Login successful',token});
     }catch(error){
         console.error(error);
         res.status(500).json({message:'Server error'});
@@ -66,8 +70,14 @@ const loginUser=async(req,res)=>{
 const getMe=async(req,res)=>{
     try {
         // return user profile from request object
-        res.status(200).json(req.user);
-    } catch (error) {
+        res.status(200).json({
+            id: req.user._id,
+            name: req.user.name,
+            email: req.user.email,
+            preferences: req.user.preferences || {}
+        });
+        }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
