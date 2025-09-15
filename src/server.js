@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const journalRoutes = require('./routes/journal');
+const userRoutes = require('./routes/user');
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ app.use(express.json());
 const connectDB = require('./config/db');
 connectDB();
 
-// Define a simple route
+//  a simple route
 app.get('/', (req, res) => {
     // debug
     console.log('Root route accessed');
@@ -30,6 +31,9 @@ app.use('/auth', authRoutes);
 // Import and use journal routes
 
 app.use('/journal', journalRoutes);
+
+// Import and use user routes
+app.use('/users', userRoutes);
 
 // Start the server
 app.listen(PORT, (err) => {

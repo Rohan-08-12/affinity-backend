@@ -23,6 +23,20 @@ const userSchema=new Schema({
         type:String,
         required:true
     },
+    preferences:{
+        reminderFrequency:{
+            type:String,
+            // enum -> restrict values to these options
+            enum:['none','daily','weekly'],
+            default:'daily'
+        },
+        journalPrivacy:{
+            type:String,
+            enum:['private','public'],
+            default:'private'
+        }
+    }
+    ,
     createdAt:{
         type:Date,
         default:Date.now
