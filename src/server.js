@@ -1,6 +1,8 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+dotenv.config();
 const authRoutes = require('./routes/auth');
 const journalRoutes = require('./routes/journal');
 const userRoutes = require('./routes/user');
@@ -8,7 +10,7 @@ const moodRoutes = require('./routes/mood');
 const chatRoutes = require('./routes/chat');
 const notificationRoutes = require('./routes/notification');
 
-dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;

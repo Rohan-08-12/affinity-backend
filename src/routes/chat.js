@@ -1,14 +1,24 @@
 const express = require('express');
+const { 
+  startSession, 
+  continueSession, 
+  getSession, 
+  getSessionHistory 
+} = require('../controllers/chatController');
+const authMiddleware = require('../middlewares/authMiddleware'); 
+
 const router = express.Router();
-const { startSession, getSessionHistory } = require('../controllers/chatController');
-const authMiddleware = require('../middlewares/authMiddleware');
 
-// Start a new chat session
-// POST /chat/session
-router.post('/session', authMiddleware, startSession);
+// 🆕 Start a new conversation
+router.post('/start', authMiddleware, startSession);
 
-// Get chat session history
-// GET /chat/session/:id
-router.get('/session/:id', authMiddleware, getSessionHistory);
+// 🆕 Continue existing conversation
+router.post('/continue', authMiddleware, continueSession);
+
+// 🆕 Get specific conversation
+router.get('/session/:sessionId', authMiddleware, getSession);
+
+// Get all conversation history (existing)
+router.get('/history', authMiddleware, getSessionHistory);
 
 module.exports = router;
