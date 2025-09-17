@@ -52,7 +52,28 @@ const getJournalEntries = async (req, res) => {
     }
 };
 
+// Delete a journal entry by ID 
+
+const deleteJournalEntry = async (req, res) => {
+    try {
+        const entryId = req.params.id;
+        const userId = req.user.id;
+        // find the journal entry by ID and user ID to ensure ownership
+        const entry = await Journal.findOne({ _id: entryId, user: userId });
+        if (!entry) {
+            return res.status(404).json({ message: 'Journal entry not found' });
+        }
+        // delete the entry
+        await entry.remove();
+        res.status(200).json({ message: 'Journal entry deleted' });
+    } catch (error) {
+        console.error('Error deleting journal entry:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     createJournalEntry,
-    getJournalEntries
+    getJournalEntries,
+    deleteJournalEntry
 };
