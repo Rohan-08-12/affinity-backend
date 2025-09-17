@@ -89,7 +89,7 @@ npm install
 
 Add .env file with placeholders:
 
-PORT=5000
+PORT=3000
 MONGO_URI=<your-mongodb-uri>
 JWT_SECRET=<your-secret>
 AI_API_KEY=<your-llm-api-key>
