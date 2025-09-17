@@ -1,15 +1,13 @@
-API Contracts – Affinity Backend (AI Therapist)
+📜 API Contract – Affinity Backend (AI Therapist)
 
-This document defines the planned API routes, request/response formats, and expected behaviors for the Affinity AI Therapist backend.
-
-⚠️ Disclaimer: Affinity is not a substitute for professional therapy or medical care. The system will suggest crisis hotlines if harmful language is detected.
+⚠️ Disclaimer: Affinity is not a substitute for professional therapy or medical care.
+If harmful or crisis-related language is detected, the system will return crisis hotline resources.
 
 🔑 Authentication Routes
 POST /auth/register
 
-Description: Register a new user account
-
-Request Body:
+Register a new user.
+Request:
 
 {
 "name": "John Doe",
@@ -21,15 +19,13 @@ Response (201):
 
 {
 "message": "User registered successfully",
-"userId": "abc123",
 "token": "jwt-token"
 }
 
 POST /auth/login
 
-Description: Login with email & password
-
-Request Body:
+Login with email & password.
+Request:
 
 {
 "email": "john@example.com",
@@ -43,74 +39,23 @@ Response (200):
 "token": "jwt-token"
 }
 
-👤 User Profile Routes
-GET /users/:id
+GET /auth/me
 
-Description: Get user profile info
-
+Get authenticated user profile.
 Response (200):
 
 {
 "id": "abc123",
 "name": "John Doe",
 "email": "john@example.com",
-"preferences": {
-"reminderFrequency": "daily",
-"journalPrivacy": "private"
-}
-}
-
-PUT /users/:id
-
-Description: Update profile settings/preferences
-
-Request Body:
-
-{
-"preferences": {
-"reminderFrequency": "weekly",
-"journalPrivacy": "private"
-}
-}
-
-💬 Chat Routes
-POST /chat/session
-
-Description: Start a new AI therapy session
-
-Request Body:
-
-{
-"prompt": "I'm feeling really anxious today."
-}
-
-Response (200):
-
-{
-"reply": "I'm here to listen. Can you tell me more about what's making you anxious?",
-"sessionId": "sess789"
-}
-
-GET /chat/session/:id
-
-Description: Fetch past chat session history
-
-Response (200):
-
-{
-"sessionId": "sess789",
-"messages": [
-{ "role": "user", "content": "I feel anxious." },
-{ "role": "ai", "content": "I'm here to listen..." }
-]
+"preferences": {}
 }
 
 📔 Journal Routes
 POST /journal
 
-Description: Create a new journal entry
-
-Request Body:
+Create a new journal entry.
+Request:
 
 {
 "entry": "Today was tough but I managed to get through it."
@@ -125,24 +70,31 @@ Response (201):
 
 GET /journal
 
-Description: Get all user journal entries
-
+Retrieve all journal entries.
 Response (200):
 
 [
 {
-"entryId": "j123",
-"date": "2025-09-11",
+"id": "j123",
+"date": "2025-09-16",
 "entry": "Today was tough but I managed..."
 }
 ]
 
-😊 Mood Tracking Routes
+DELETE /journal/:id
+
+Delete a specific journal entry.
+Response (200):
+
+{
+"message": "Journal entry deleted"
+}
+
+😊 Mood Routes
 POST /mood
 
-Description: Log user’s mood
-
-Request Body:
+Log a new mood.
+Request:
 
 {
 "mood": "anxious",
@@ -158,20 +110,18 @@ Response (201):
 
 GET /mood
 
-Description: Get user mood history
-
+Get mood history.
 Response (200):
 
 [
-{ "date": "2025-09-10", "mood": "calm" },
-{ "date": "2025-09-11", "mood": "anxious" }
+{ "date": "2025-09-15", "mood": "calm" },
+{ "date": "2025-09-16", "mood": "anxious" }
 ]
 
 🔔 Notifications Routes
 GET /notifications
 
-Description: Retrieve all user notifications
-
+Retrieve all notifications.
 Response (200):
 
 [
@@ -181,15 +131,85 @@ Response (200):
 
 PUT /notifications/:id/read
 
-Description: Mark a notification as read
-
+Mark a notification as read.
 Response (200):
 
 {
 "message": "Notification marked as read"
 }
 
-🛡️ Error Responses (Example)
+💬 Chat Routes (AI Sessions)
+POST /chat/start
+
+Start a new chat session.
+Request:
+
+{
+"prompt": "I'm feeling really anxious today."
+}
+
+Response (200):
+
+{
+"reply": "I'm here to listen. Can you tell me more about what's making you anxious?",
+"sessionId": "sess789",
+"isNewSession": true
+}
+
+POST /chat/continue
+
+Continue an existing chat session.
+Request:
+
+{
+"sessionId": "sess789",
+"prompt": "It's mostly because of my exams."
+}
+
+Response (200):
+
+{
+"reply": "Exams can be really stressful. How have you been coping with the pressure?",
+"sessionId": "sess789",
+"isNewSession": false,
+"messageCount": 5
+}
+
+GET /chat/session/:id
+
+Fetch a specific chat session.
+Response (200):
+
+{
+"sessionId": "sess789",
+"messages": [
+{ "role": "user", "content": "I feel anxious." },
+{ "role": "ai", "content": "I'm here to listen..." }
+],
+"createdAt": "2025-09-15T12:00:00.000Z",
+"updatedAt": "2025-09-15T12:15:00.000Z",
+"messageCount": 2
+}
+
+GET /chat/history
+
+Get preview of all chat sessions.
+Response (200):
+
+[
+{
+"sessionId": "sess789",
+"preview": {
+"firstMessage": "I feel anxious.",
+"lastMessage": "I'm here to listen...",
+"messageCount": 2
+},
+"createdAt": "2025-09-15T12:00:00.000Z",
+"updatedAt": "2025-09-15T12:15:00.000Z"
+}
+]
+
+🛡️ Error Responses
 {
 "error": true,
 "message": "Unauthorized access"
