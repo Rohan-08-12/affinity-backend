@@ -51,4 +51,31 @@ const updateUserProfile=async(req,res)=>{
     }
 }
 
+<<<<<<< Updated upstream
+=======
+// Update user preferences controller
+const updatePreferences=async(req,res)=>{
+    try{
+        const {preferences}=req.body;
+        // find user by ID and update preferences, return updated user excluding password
+        const user=await User.findByIdAndUpdate(
+            req.user._id,
+            {preferences},
+            {new:true,runValidators:true}
+        ).select('-password');
+        // if user not found, return error
+        if(!user){
+            return res.status(404).json({message:'User not found'});
+        }
+        res.status(200).json({
+            message: 'Preferences updated',
+            preferences: user.preferences
+        });
+    }catch(error){
+        console.log('Error updating preferences:',error);
+        res.status(500).json({message:'Server error'});
+    }
+}
+
+>>>>>>> Stashed changes
 module.exports={getUserProfile,updateUserProfile, updatePreferences};
