@@ -1,6 +1,6 @@
 API Contracts – Affinity Backend (AI Therapist)
 
-This document defines the planned API routes, request/response formats, and expected behaviors for the Affinity AI Therapist backend.
+This document defines the implemented API routes, request/response formats, and expected behaviors for the Affinity AI Therapist backend.
 
 ⚠️ Disclaimer: Affinity is not a substitute for professional therapy or medical care. The system will suggest crisis hotlines if harmful language is detected.
 
@@ -21,7 +21,6 @@ Response (201):
 
 {
 "message": "User registered successfully",
-"userId": "abc123",
 "token": "jwt-token"
 }
 
@@ -43,10 +42,9 @@ Response (200):
 "token": "jwt-token"
 }
 
-👤 User Profile Routes
-GET /users/:id
+GET /auth/me
 
-Description: Get user profile info
+Description: Get current user profile
 
 Response (200):
 
@@ -60,9 +58,9 @@ Response (200):
 }
 }
 
-PUT /users/:id
+PUT /auth/me/preferences
 
-Description: Update profile settings/preferences
+Description: Update current user preferences
 
 Request Body:
 
@@ -73,36 +71,14 @@ Request Body:
 }
 }
 
-💬 Chat Routes
-POST /chat/session
-
-Description: Start a new AI therapy session
-
-Request Body:
-
-{
-"prompt": "I'm feeling really anxious today."
-}
-
 Response (200):
 
 {
-"reply": "I'm here to listen. Can you tell me more about what's making you anxious?",
-"sessionId": "sess789"
+"message": "Preferences updated",
+"preferences": {
+"reminderFrequency": "weekly",
+"journalPrivacy": "private"
 }
-
-GET /chat/session/:id
-
-Description: Fetch past chat session history
-
-Response (200):
-
-{
-"sessionId": "sess789",
-"messages": [
-{ "role": "user", "content": "I feel anxious." },
-{ "role": "ai", "content": "I'm here to listen..." }
-]
 }
 
 📔 Journal Routes
@@ -125,7 +101,7 @@ Response (201):
 
 GET /journal
 
-Description: Get all user journal entries
+Description: Get all journal entries
 
 Response (200):
 
@@ -136,6 +112,16 @@ Response (200):
 "entry": "Today was tough but I managed..."
 }
 ]
+
+DELETE /journal/:id
+
+Description: Delete a journal entry by ID
+
+Response (200):
+
+{
+"message": "Journal entry deleted"
+}
 
 😊 Mood Tracking Routes
 POST /mood
@@ -158,7 +144,7 @@ Response (201):
 
 GET /mood
 
-Description: Get user mood history
+Description: Get mood history
 
 Response (200):
 
@@ -168,7 +154,7 @@ Response (200):
 ]
 
 🔔 Notifications Routes
-GET /notifications
+GET /notification
 
 Description: Retrieve all user notifications
 
@@ -179,7 +165,7 @@ Response (200):
 { "id": "n2", "message": "Daily mood check reminder", "read": true }
 ]
 
-PUT /notifications/:id/read
+PUT /notification/:id/read
 
 Description: Mark a notification as read
 
@@ -188,6 +174,81 @@ Response (200):
 {
 "message": "Notification marked as read"
 }
+
+💬 Chat Routes
+POST /chat/start
+
+Description: Start a new AI therapy session
+
+Request Body:
+
+{
+"prompt": "I'm feeling really anxious today."
+}
+
+Response (200):
+
+{
+"reply": "I'm here to listen. Can you tell me more about what's making you anxious?",
+"sessionId": "sess789",
+"isNewSession": true
+}
+
+POST /chat/continue
+
+Description: Continue an existing session
+
+Request Body:
+
+{
+"sessionId": "sess789",
+"prompt": "It's mostly about exams coming up."
+}
+
+Response (200):
+
+{
+"reply": "Exams can definitely feel overwhelming. How have you been coping with the stress so far?",
+"sessionId": "sess789",
+"messageCount": 4,
+"isNewSession": false
+}
+
+GET /chat/session/:sessionId
+
+Description: Fetch a specific chat session
+
+Response (200):
+
+{
+"sessionId": "sess789",
+"messages": [
+{ "role": "user", "content": "I feel anxious." },
+{ "role": "ai", "content": "I'm here to listen..." }
+],
+"createdAt": "2025-09-11T12:00:00Z",
+"updatedAt": "2025-09-11T12:05:00Z",
+"messageCount": 2
+}
+
+GET /chat/history
+
+Description: Get all chat sessions (paginated)
+
+Response (200):
+
+[
+{
+"sessionId": "sess789",
+"preview": {
+"firstMessage": "I feel anxious.",
+"lastMessage": "I'm here to listen...",
+"messageCount": 2
+},
+"createdAt": "2025-09-11T12:00:00Z",
+"updatedAt": "2025-09-11T12:05:00Z"
+}
+]
 
 🛡️ Error Responses (Example)
 {
