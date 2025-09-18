@@ -51,8 +51,7 @@ const updateUserProfile=async(req,res)=>{
     }
 }
 
-<<<<<<< Updated upstream
-=======
+
 // Update user preferences controller
 const updatePreferences=async(req,res)=>{
     try{
@@ -77,5 +76,4 @@ const updatePreferences=async(req,res)=>{
     }
 }
 
->>>>>>> Stashed changes
 module.exports={getUserProfile,updateUserProfile, updatePreferences};
