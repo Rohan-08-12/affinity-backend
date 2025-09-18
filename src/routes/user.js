@@ -11,4 +11,6 @@ router.get('/:id',authMiddleware,getUserProfile);
 // PUT /users/:id
 router.put('/:id',authMiddleware,updateUserProfile);
 
+
+
 module.exports=router;
