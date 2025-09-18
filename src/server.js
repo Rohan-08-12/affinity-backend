@@ -3,14 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
-const authRoutes = require('./routes/auth');
-const journalRoutes = require('./routes/journal');
-const userRoutes = require('./routes/user');
-const moodRoutes = require('./routes/mood');
-const chatRoutes = require('./routes/chat');
-const notificationRoutes = require('./routes/notification');
-
-
+const routes = require('./routes/index');
+const errorHandler = require('./controllers/errorHandler');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,32 +16,12 @@ app.use(express.json());
 const connectDB = require('./config/db');
 connectDB();
 
-//  a simple route
-app.get('/', (req, res) => {
-    // debug
-    console.log('Root route accessed');
-    res.send('API is running...');
-});
 
-// Import and use auth routes
+app.use('/', routes);
 
-app.use('/auth', authRoutes);
+// Error handling middleware
 
-// Import and use journal routes
-
-app.use('/journal', journalRoutes);
-
-// Import and use user routes
-app.use('/users', userRoutes);
-
-// Import and use mood routes
-app.use('/mood', moodRoutes);
-
-// Import and use notification routes
-app.use('/notifications', notificationRoutes);
-
-// Import and use chat routes
-app.use('/chat', chatRoutes);
+app.use(errorHandler);
 
 // Start the server
 app.listen(PORT, (err) => {
