@@ -1,5 +1,5 @@
 const ChatSession = require('../models/ChatSession');
-const openai = require('../config/openai');
+const groq = require('../config/groq');
 
 // Crisis keywords for better safety detection
 const CRISIS_KEYWORDS = [
@@ -86,13 +86,11 @@ const startSession = async (req, res) => {
     // Get AI response
     let aiReply;
     try {
-      const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini", // Using gpt-4o-mini 
+      const response = await groq.chat.completions.create({
+        model: "llama-3.3-70b-versatile",
         messages: messages,  // Full context
         max_tokens: 300, // Limit response length
         temperature: 0.7,  // Balanced creativity
-        presence_penalty: 0.1, // Slightly discourage repetition
-        frequency_penalty: 0.1 // Slightly discourage repetition 
       });
       
     //   Extract AI's reply
@@ -104,8 +102,10 @@ const startSession = async (req, res) => {
         aiReply += getCrisisResourcesMessage();
       }
       
-    } catch (openaiError) {
-      console.error('OpenAI API Error:', openaiError);
+    } catch (groqError) {
+      console.error('Groq API Error:', groqError);
+      console.error('Error details:', groqError.message);
+      console.error('Error code:', groqError.status, groqError.code);
       aiReply = hasCrisisContent 
         ? `I hear that you're going through a really difficult time. While I want to support you, I'm not equipped to handle crisis situations.${getCrisisResourcesMessage()}`
         : "I'm here to listen and support you. Unfortunately, I'm having trouble processing your message right now. Can you try again, or would you like to talk about something specific?";
@@ -198,13 +198,11 @@ const continueSession = async (req, res) => {
     // Get AI response with full context
     let aiReply;
     try {
-      const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+      const response = await groq.chat.completions.create({
+        model: "mixtral-8x7b-32768",
         messages: messages,
         max_tokens: 300,
         temperature: 0.7,
-        presence_penalty: 0.1,
-        frequency_penalty: 0.1
       });
       
       aiReply = response.choices[0].message.content;
@@ -213,8 +211,8 @@ const continueSession = async (req, res) => {
         aiReply += getCrisisResourcesMessage();
       }
       
-    } catch (openaiError) {
-      console.error('OpenAI API Error:', openaiError);
+    } catch (groqError) {
+      console.error('Groq API Error:', groqError);
       aiReply = hasCrisisContent 
         ? `I'm concerned about what you've shared.${getCrisisResourcesMessage()}`
         : "I'm having trouble processing that right now. Can you tell me more about what's on your mind?";

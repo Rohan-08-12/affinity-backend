@@ -14,7 +14,7 @@ const moodSchema=new Schema({
     mood:{
         type:String,
         required:true,
-        enum:['happy','sad','neutral','angry','anxious','excited','bored','confused']
+        enum:['happy','sad','neutral','angry','anxious','excited','bored','confused','calm','tired']
     },
     note:{
         type:String,

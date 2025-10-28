@@ -21,7 +21,8 @@ const getMoodHistory=async(req,res)=>{
         const moods=await Mood.find({user:req.user._id}).sort({createdAt:-1});
         const response=moods.map(mood=>({
             date:mood.createdAt.toISOString().split('T')[0], // format date as YYYY-MM-DD
-            mood:mood.mood
+            mood:mood.mood,
+            note:mood.note
         }));
         res.status(200).json(response);
     } catch (error) {

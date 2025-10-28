@@ -21,7 +21,7 @@ console.log('OPENAI_API_KEY preview:', process.env.OPENAI_API_KEY ?
 
 // Check if the API key is properly formatted
 if (!process.env.OPENAI_API_KEY) {
-  console.error('❌ OPENAI_API_KEY not found in environment variables');
+  console.error(' OPENAI_API_KEY not found in environment variables');
   console.error('Make sure you have a .env file in your project root with:');
   console.error('OPENAI_API_KEY=sk-your-actual-key-here');
   process.exit(1);
